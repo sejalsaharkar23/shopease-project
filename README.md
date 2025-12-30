@@ -24,8 +24,9 @@ The project is built using React + Vite, focusing on clean UI, reusable componen
 15. Clear cart option
 
 
-##Folder Structure:
+## Folder Structure
 
+```bash
 ShopEase/
 │
 ├── node_modules/
@@ -38,7 +39,7 @@ ShopEase/
 │   │       ├── furniture/
 │   │       ├── makeup/
 │   │       └── grocery/
-│
+│   │
 │   ├── components/
 │   │   ├── Banners.jsx
 │   │   ├── CartItem.jsx
@@ -52,19 +53,19 @@ ShopEase/
 │   │   ├── ProductList.jsx
 │   │   ├── SearchBar.jsx
 │   │   └── SortDropdown.jsx
-│
+│   │
 │   ├── data/
 │   │   ├── banners.js
 │   │   └── products.js
-│
+│   │
 │   ├── pages/
 │   │   ├── Home.jsx
 │   │   ├── Cart.jsx
 │   │   └── ProductDetail.jsx
-│
+│   │
 │   ├── utils/
 │   │   └── priceCalculation.js
-│
+│   │
 │   ├── App.jsx
 │   ├── main.jsx
 │   └── index.css
@@ -73,6 +74,7 @@ ShopEase/
 ├── package.json
 ├── vite.config.js
 └── README.md
+
 
 ##Setup Instruction:
 
