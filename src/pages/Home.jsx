@@ -42,7 +42,7 @@ const Home = ({ addToCart, search }) => {
         products={products}
         category={category}
         sortBy={sortBy}
-        search={search}       // ✅ NOW DEFINED
+        search={search}       
         addToCart={addToCart}
       />
     </div>
