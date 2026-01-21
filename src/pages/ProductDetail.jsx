@@ -1,14 +1,33 @@
 import { useParams, useNavigate } from "react-router-dom";
-import products from "../data/products";
+import { useEffect, useState } from "react";
 
 const ProductDetail = ({ addToCart }) => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  
-  const product = products.find(
-    (p) => p.id === Number(id)
-  );
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(`http://localhost:5001/api/products/${id}`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Product not found");
+        return res.json();
+      })
+      .then((data) => {
+        setProduct(data);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, [id]);
+
+  if (loading) {
+    return (
+      <h2 style={{ textAlign: "center", marginTop: "40px" }}>
+        Loading product...
+      </h2>
+    );
+  }
 
   if (!product) {
     return (
@@ -26,7 +45,7 @@ const ProductDetail = ({ addToCart }) => {
 
       <div className="product-detail-card">
         <img
-          src={product.image}
+          src={product.imageUrl}
           alt={product.name}
           className="detail-img"
         />
@@ -39,7 +58,6 @@ const ProductDetail = ({ addToCart }) => {
             Category: <b>{product.category}</b>
           </p>
 
-          
           {product.stock > 0 ? (
             <p style={{ color: "green", fontWeight: "600" }}>
               In Stock ({product.stock} left)
@@ -51,13 +69,14 @@ const ProductDetail = ({ addToCart }) => {
           )}
 
           <button
-         className={`add-btn ${product.stock === 0 ? "out-stock-btn" : ""}`}
-          disabled={product.stock === 0}
-          onClick={() => addToCart(product)}
->
-  {product.stock === 0 ? "Out of Stock" : "Add to Cart"}
-</button>
-
+            className={`add-btn ${
+              product.stock === 0 ? "out-stock-btn" : ""
+            }`}
+            disabled={product.stock === 0}
+            onClick={() => addToCart(product)}
+          >
+            {product.stock === 0 ? "Out of Stock" : "Add to Cart"}
+          </button>
         </div>
       </div>
     </div>

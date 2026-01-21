@@ -1,5 +1,4 @@
 import { useState } from "react";
-import products from "../data/products";
 import ProductFilter from "../components/ProductFilter";
 import ProductList from "../components/ProductList";
 import Banners from "../components/Banners";
@@ -24,25 +23,23 @@ const Home = ({ addToCart, search }) => {
         />
       </div>
 
-     
+      
       <Banners />
 
-      {/* HEADING + SORT */}
+      
       <div className="section-header">
         <h2>{heading}</h2>
-
         <SortDropdown
           sortBy={sortBy}
           setSortBy={setSortBy}
         />
       </div>
 
- 
+     
       <ProductList
-        products={products}
         category={category}
         sortBy={sortBy}
-        search={search}       
+        search={search}
         addToCart={addToCart}
       />
     </div>

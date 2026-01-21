@@ -1,9 +1,10 @@
 
 ##Project Overview:
 
-ShopEase is a modern e-commerce web application inspired by Flipkart.
-It allows users to browse products across multiple categories, search and sort products, view product details, manage a shopping cart, and securely persist cart data using localStorage.
-The project is built using React + Vite, focusing on clean UI, reusable components, and real-world e-commerce features.
+ShopEase is a modern full-stack e-commerce web application inspired by Flipkart.
+It allows users to browse products, search & filter items, view product details, manage a shopping cart, and persist cart data using a backend API.
+
+The project is built using React (Vite) for the frontend and ASP.NET Core Web API + PostgreSQL for the backend, following real-world e-commerce architecture and clean component-based UI design.
 
 ##Features included:
 

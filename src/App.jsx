@@ -1,126 +1,126 @@
-import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState, useEffect } from "react";
+
+import {
+  getCartApi,
+  addToCartApi,
+  decreaseQtyApi,
+  removeItemApi,
+} from "./services/cartApi";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import PrivateRoute from "./components/PrivateRoute";
 
+import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import ProductDetail from "./pages/ProductDetail";
 
 const App = () => {
   const [search, setSearch] = useState("");
-  const [cart, setCart] = useState(() => {
+  const [cart, setCart] = useState([]);
+
+  
+  const refreshCart = async () => {
     try {
-      const saved = localStorage.getItem("shopease-cart");
-      return saved ? JSON.parse(saved) : [];
-    } catch (e) {
-      console.error("Cart load error", e);
-      return [];
+      const data = await getCartApi();
+      setCart(data);
+    } catch (err) {
+      console.error("Cart load failed", err);
+      setCart([]);
     }
-  });
+  };
 
   useEffect(() => {
-    localStorage.setItem("shopease-cart", JSON.stringify(cart));
-  }, [cart]);
+    refreshCart();
+  }, []);
 
-  const addToCart = (product) => {
-    if (product.stock === 0) {
-      alert("This product is out of stock");
-      return;
-    }
+ 
+  const cartCount = cart.reduce(
+    (sum, item) => sum + item.quantity,
+    0
+  );
 
-    setCart((prev) => {
-      const existing = prev.find((i) => i.id === product.id);
-
-      if (existing) {
-        if (existing.quantity >= product.stock) {
-          alert("Stock limit reached");
-          return prev;
-        }
-
-        return prev.map((i) =>
-          i.id === product.id
-            ? { ...i, quantity: i.quantity + 1 }
-            : i
-        );
-      }
-
-      return [...prev, { ...product, quantity: 1 }];
-    });
+  
+  const addToCart = async (product) => {
+    await addToCartApi(product.id);  
+    refreshCart();
   };
 
-  const increaseQty = (id) => {
-    setCart((prev) =>
-      prev.map((item) =>
-        item.id === id && item.quantity < item.stock
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      )
-    );
+  
+  const increaseQty = async (productId) => {
+    await addToCartApi(productId);    
+    refreshCart();
   };
 
-  const decreaseQty = (id) => {
-    setCart((prev) =>
-      prev
-        .map((item) =>
-          item.id === id
-            ? { ...item, quantity: item.quantity - 1 }
-            : item
-        )
-        .filter((item) => item.quantity > 0)
-    );
+  
+  const decreaseQty = async (productId) => {
+    await decreaseQtyApi(productId); 
+    refreshCart();
   };
 
-  const removeItem = (id) => {
-    setCart((prev) => prev.filter((item) => item.id !== id));
-  };
-
-  const clearCart = () => {
-    setCart([]);
-    localStorage.removeItem("shopease-cart");
+  
+  const removeItem = async (productId) => {
+    await removeItemApi(productId);   
+    refreshCart();
   };
 
   return (
     <BrowserRouter>
-      <Header
-        cartCount={cart.reduce(
-          (sum, item) => sum + item.quantity,
-          0
-        )}
-        search={search}
-        setSearch={setSearch}
-      />
       <Routes>
+        <Route path="/" element={<Login />} />
+
         <Route
-          path="/"
+          path="/home"
           element={
-            <Home
-              addToCart={addToCart}
-              search={search}
-            />
+            <PrivateRoute>
+              <Header
+                cartCount={cartCount}
+                search={search}
+                setSearch={setSearch}
+              />
+              <Home addToCart={addToCart} search={search} />
+              <Footer />
+            </PrivateRoute>
           }
         />
 
         <Route
           path="/product/:id"
-          element={<ProductDetail addToCart={addToCart} />}
+          element={
+            <PrivateRoute>
+              <Header
+                cartCount={cartCount}
+                search={search}
+                setSearch={setSearch}
+              />
+              <ProductDetail addToCart={addToCart} />
+              <Footer />
+            </PrivateRoute>
+          }
         />
 
         <Route
           path="/cart"
           element={
-            <Cart
-              cart={cart}
-              increaseQty={increaseQty}
-              decreaseQty={decreaseQty}
-              removeItem={removeItem}
-              clearCart={clearCart}
-            />
+            <PrivateRoute>
+              <Header
+                cartCount={cartCount}
+                search={search}
+                setSearch={setSearch}
+              />
+              <Cart
+                cart={cart}
+                increaseQty={increaseQty}
+                decreaseQty={decreaseQty}
+                removeItem={removeItem}
+              />
+              <Footer />
+            </PrivateRoute>
           }
         />
       </Routes>
-      <Footer />
     </BrowserRouter>
   );
 };

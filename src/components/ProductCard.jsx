@@ -5,13 +5,16 @@ const ProductCard = ({ product, addToCart }) => {
 
   return (
     <div className="product-card">
-     
       <div
         className="product-image-box"
         onClick={() => navigate(`/product/${product.id}`)}
         style={{ cursor: "pointer" }}
       >
-        <img src={product.image} alt={product.name} />
+        <img
+          src={product.imageUrl}
+          alt={product.name}
+          style={{ width: "100%", height: "200px", objectFit: "cover" }}
+        />
       </div>
 
       <div className="product-info">
@@ -19,14 +22,12 @@ const ProductCard = ({ product, addToCart }) => {
         <p className="product-price">₹{product.price}</p>
 
         <button
-  className={`add-btn ${product.stock === 0 ? "out-stock-btn" : ""}`}
-  disabled={product.stock === 0}
-  onClick={() => addToCart(product)}
->
-  {product.stock === 0 ? "Out of Stock" : "Add to Cart"}
-</button>
-
-
+          className={`add-btn ${product.stock === 0 ? "out-stock-btn" : ""}`}
+          disabled={product.stock === 0}
+          onClick={() => addToCart(product)}
+        >
+          {product.stock === 0 ? "Out of Stock" : "Add to Cart"}
+        </button>
       </div>
     </div>
   );

@@ -22,7 +22,7 @@ const Cart = ({
 
   return (
     <>
-     <div
+      <div
         style={{
           display: "flex",
           alignItems: "center",
@@ -32,8 +32,9 @@ const Cart = ({
           borderBottom: "1px solid #e5e7eb",
         }}
       >
+        
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/home")}
           style={{
             width: "36px",
             height: "36px",
@@ -47,19 +48,14 @@ const Cart = ({
         >
           ←
         </button>
-
-       
       </div>
 
-    
       {cart.length === 0 ? (
         <h2 style={{ textAlign: "center", marginTop: "40px" }}>
           🛒 Cart is Empty
         </h2>
       ) : (
-        
         <div className="cart-page">
-         
           <CartItems
             cart={cart}
             increaseQty={increaseQty}
@@ -67,7 +63,6 @@ const Cart = ({
             removeItem={removeItem}
           />
 
-          
           <div>
             <CartSummary
               subtotal={subtotal}

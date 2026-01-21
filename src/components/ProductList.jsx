@@ -1,26 +1,44 @@
+import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
+import { getProducts } from "../services/api";
 
-const ProductList = ({
-  products,
-  category,
-  sortBy,
-  search,
-  addToCart,
-}) => {
+const ProductList = ({ category, sortBy, search, addToCart }) => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   
+  useEffect(() => {
+    getProducts()
+      .then((data) => {
+        setProducts(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("API Error:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <h3 style={{ textAlign: "center", marginTop: "30px" }}>
+        Loading products...
+      </h3>
+    );
+  }
+
   let filtered = products.filter((product) => {
     const matchCategory =
-      category === "all" || product.category === category;
+      category === "all" ||
+      !product.category ||              
+      product.category === category;
 
     const matchSearch =
-      product.name
-        .toLowerCase()
-        .includes(search.toLowerCase());
+      product.name?.toLowerCase().includes(search.toLowerCase());
 
     return matchCategory && matchSearch;
   });
 
-  
   if (sortBy === "low-high") {
     filtered.sort((a, b) => a.price - b.price);
   }
@@ -35,7 +53,6 @@ const ProductList = ({
     );
   }
 
- 
   if (filtered.length === 0) {
     return (
       <h3 style={{ textAlign: "center", marginTop: "30px" }}>
