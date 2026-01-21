@@ -25,61 +25,10 @@ The project is built using React (Vite) for the frontend and ASP.NET Core Web AP
 15. Clear cart option
 
 
-## Folder Structure
-
-```bash
-ShopEase/
-│
-├── node_modules/
-├── src/
-│   ├── assets/
-│   │   └── images/
-│   │       ├── phones/
-│   │       ├── electronics/
-│   │       ├── fashion/
-│   │       ├── furniture/
-│   │       ├── makeup/
-│   │       └── grocery/
-│   │
-│   ├── components/
-│   │   ├── Banners.jsx
-│   │   ├── CartItem.jsx
-│   │   ├── CartSummary.jsx
-│   │   ├── CouponInput.jsx
-│   │   ├── Footer.jsx
-│   │   ├── Header.jsx
-│   │   ├── LoginModal.jsx
-│   │   ├── ProductCard.jsx
-│   │   ├── ProductFilter.jsx
-│   │   ├── ProductList.jsx
-│   │   ├── SearchBar.jsx
-│   │   └── SortDropdown.jsx
-│   │
-│   ├── data/
-│   │   ├── banners.js
-│   │   └── products.js
-│   │
-│   ├── pages/
-│   │   ├── Home.jsx
-│   │   ├── Cart.jsx
-│   │   └── ProductDetail.jsx
-│   │
-│   ├── utils/
-│   │   └── priceCalculation.js
-│   │
-│   ├── App.jsx
-│   ├── main.jsx
-│   └── index.css
-│
-├── .gitignore
-├── package.json
-├── vite.config.js
-└── README.md
-
-
 ##Setup Instruction:
 
-Clone the Repository: git clone https://github.com/sejalsaharkar23/shopease-ecommerce-react.git
+Frontend setup:
+Clone the Repository: git clone https://github.com/sejalsaharkar23/shopease-project.git
 
 Navigate to Project Folder: cd shopease
 
@@ -88,3 +37,14 @@ Install Dependencies: npm install
 Start Development Server: npm run dev
 
 Open in Browser: http://localhost:5173
+
+Backend setup:
+cd backend
+
+cd webapplication1
+
+dotnet ef database update
+
+dotnet run
+
+Swagger UI: http://localhost:5001/swagger/index.html
