@@ -1,4 +1,5 @@
 
+
 ##Project Overview:
 
 ShopEase is a modern full-stack e-commerce web application inspired by Flipkart.
@@ -48,3 +49,4 @@ dotnet ef database update
 dotnet run
 
 Swagger UI: http://localhost:5001/swagger/index.html
+
